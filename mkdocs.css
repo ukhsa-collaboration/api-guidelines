@@ -1,0 +1,7 @@
+.rst-content .admonition code {
+    white-space: pre;
+    word-wrap: normal;
+    display: block;
+    overflow-x: auto;
+    padding: 1em;
+}
