@@ -32,7 +32,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiInfo'
+                #$ref: '#/components/schemas/ApiInfo'
         default:
           $ref: '#/components/responses/UnexpectedError'
 
@@ -40,7 +40,7 @@ paths:
     get:
       summary: List all test results
       description: List all test results.
-      operationId: getResults
+      #operationId: getResults
       tags:
         - Test Results
       parameters:
