@@ -310,15 +310,32 @@ Resolves issue #123"
    - Once approved, consider squashing related commits for a cleaner history
    - Use descriptive commit messages that explain the changes
 
-8. **Prepare for merge**: Before your PR is merged, you may be asked to squash your commits to maintain a clean project history.
+8. **Prepare for merge**: Before your PR is merged, make sure your branch is up to date with the latest changes from the `main` branch.
 
     You should be able to do this from the [GitHub UI](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/keeping-your-pull-request-in-sync-with-the-base-branch) or from the command line.
 
-    If you are an external contributor, you can use the following commands to squash your commits:
+    If you are an external contributor, you can use the following commands to keep your branch up to date with the `main` branch:
+
+    ```bash
+    # from your feature branch
+    git fetch upstream
+    git rebase upstream/main
+    ```
+
+    If you are a member of the `ukhsa-collaboration` GitHub organisation, you can use the following commands to keep your branch up to date with the `main` branch:
+
+    ```bash
+    # from your feature branch
+    git fetch
+    git rebase origin/main
+    ```
+
+    Occasionally you may also be asked to squash your commits to maintain a clean project history. If you are an external contributor, you can use the following commands to squash your commits:
 
     ```bash
     # Squash multiple commits into one
-    git rebase -i HEAD~[number of commits to squash]
+    git rebase -i HEAD~{number of commits to squash}
+    # and follow the instructions in the editor to squash your commits
     # or squash all commits since branching from main
     git fetch upstream
     git rebase -i upstream/main
@@ -328,20 +345,29 @@ Resolves issue #123"
 
     ```bash
     # Squash multiple commits into one
-    git rebase -i HEAD~[number of commits to squash]
+    git rebase -i HEAD~{number of commits to squash}
+    # and follow the instructions in the editor to squash your commits
     # or squash all commits since branching from main
     git fetch
-    git rebase -i main
+    git rebase -i origin/main
     ```
 
     > [!NOTE]
     > This repository maintains a [linear commit history](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches#require-linear-history).
     >
-    > Always use [`rebase`](https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase) instead of `merge` when keeping your branch up to date with the `main` branch.
+    > Always use [`rebase`](https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase) instead of `merge` when keeping your branch up to date with the `main` branch (see previous step).
 
-9. **Merge the PR**: Once approved and all status checks have passed, you can merge the PR into the main branch. If you're an external contributor, this may be done by a maintainer.
+1. **Merge the PR**: Once approved and all status checks have passed, including the branch being up to date with main, you can trigger a `fast-forward` merge by adding the `fast-forward` label to the pull request. This will initiate an automated, permission-checked `fast-forward` merge process. Only users with `write` or `admin` permissions on the repository can trigger this action. If you're an external contributor, a maintainer may need to do this for you.
 
-10. Congratulations! 🎉🎉 You've successfully contributed to the UKHSA API Guidelines, any documentation changes will be automatically deployed to the [UKHSA API Guidelines](https://ukhsa-collaboration.github.io/api-guidelines/) site.
+    The merge process is handled by our two-phase GitHub Actions workflow:
+    - **[Phase 1](./.github/workflows/fast-forward-pr-merge-init.md):** Checks your permissions and PR status when you add the `fast-forward` label.
+    - **[Phase 2](./.github/workflows/fast-forward-pr-merge-privileged.md):** If you have sufficient permissions and the PR is mergeable, the workflow will perform a true `fast-forward` merge and post the result as a comment on the PR.
+
+    If you do not have permission, the workflow will notify you and request you contact a member of the [API Standards Team](https://github.com/orgs/ukhsa-collaboration/teams/api-standards-team).
+
+    Information on why we use a non-standard GitHub merge process can be found in the [`fast-forward-pr-merge-init.md`](./.github/workflows/fast-forward-pr-merge-init.md#why-is-this-workflow-needed) documentation.
+
+2.  Congratulations! 🎉🎉 You've successfully contributed to the UKHSA API Guidelines, any documentation changes will be automatically deployed to the [UKHSA API Guidelines](https://ukhsa-collaboration.github.io/api-guidelines/) site.
 
 ## Development Guidelines
 
