@@ -90,4 +90,28 @@ Use [standard HTTP status codes](https://www.iana.org/assignments/http-status-co
 
 `201 Created` responses to `POST` methods **SHOULD** have a `Location` header identifying the location of the newly created resource according to [RFC9110 Section 10.2.2](https://datatracker.ietf.org/doc/html/rfc9110#section-10.2.2).
 
-For detailed requirements on standardised error responses (e.g., 401, 403, 500) using Problem Details (RFC-9457), see [UKHSA Guidelines Error Handling](./error-handling.md).
+
+## Security and Privacy Metadata
+
+APIs **SHOULD** include the `x-contains-sensitive-data` field in the `info` object to indicate whether the API handles any sensitive data, such as:
+
+- Personally Identifiable Information (PII)
+- Protected Health Information (PHI)
+- Financial or government-regulated data
+
+### Why?
+
+Adding this flag enables API governance tools to:
+
+- Flag APIs that require enhanced privacy and security reviews
+- Inform documentation and operational classification
+- Ensure compliance with regulatory obligations (e.g., GDPR, HIPAA)
+
+### Example
+
+```yaml
+info:
+  title: Lab Results API
+  version: 2.0.0
+  x-contains-sensitive-data: true
+```
