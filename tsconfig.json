@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2016",
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "types": ["jest"],
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "outDir": "./dist",
+    "rootDir": "src"
+  },
+  "include": ["src", "__tests__"],
+  "exclude": ["node_modules", "dist"]
+}
