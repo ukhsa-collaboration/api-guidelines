@@ -9,7 +9,8 @@
     "build": "tsc && npm run copy-legacy",
     "copy-legacy": "cpx \"src/functions/legacy/*.js\" dist/functions",
     "test": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:rules": "tsx src/__tests__/test-spectral.ts"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,7 @@
     "jest-junit": "^16.0.0",
     "ts-jest": "^29.3.4",
     "ts-node": "^10.9.2",
+    "tsx": "^4.20.3",
     "typescript": "^5.8.3"
   }
 }
