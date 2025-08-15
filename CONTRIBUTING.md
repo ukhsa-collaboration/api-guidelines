@@ -418,43 +418,53 @@ Resolves issue #123"
 
 - Test new rules against the example specifications in the `/example/` directory (you may need to modify the example definition to test your rules).
 
-  ``` bash
+  ```bash
   spectral lint example/example.1.0.0.oas.yml
   ```
 
 - Verify that rules produce the expected results for both valid and invalid API definitions.
 
-- Add automated tests for your Spectral rule:
+- Add automated tests for each new Spectral rule:
+  1. Define the rule in `ukhsa.oas.rules.yml`.
+  2. Create a Jest test file in:
+     ```
+     src/__tests__/rules/<rule-name>.spec.ts
+     ```
+  3. Use the testRule helper from src/__tests__/__helpers__/helper.ts to define one or more inline scenarios:
+     ```ts
+     import testRule from './__helpers__/helper';
 
-  For each rule (e.g. `should-have-info-x-contains-sensitive-data`), add the following:
+     testRule('<rule-name>', [
+       {
+         name: 'Valid spec passes',
+         document: `
+           openapi: 3.0.0
+           info:
+             title: My API
+             version: 1.0.0
+           paths: {}
+         `,
+         errors: []
+       },
+       {
+         name: 'Invalid spec fails',
+         document: `
+           openapi: 3.0.0
+           info:
+             title: My API
+             version: 1.0.0
+           paths: {}
+         `,
+         errors: [
+           { message: '<expected error message>' }
+         ]
+       }
+     ]);
+     ```
 
-  - A ruleset file in:
-
-    ```
-    src/__tests__/rulesets/your-rule-name.yaml
-    ```
-
-  - A test case folder:
-
-    ```
-    src/__tests__/testdata/your-rule-name/
-    ```
-
-    Inside this folder, include:
-
-    - `valid.yaml` — must **not** trigger the rule
-    - `invalid.yaml` — must **trigger** the rule
-
-- Run the rule tests
-
+- Run the rule tests:
   ```bash
-  npm run test:rules
-  ```
-
-  For more detailed output (like pass/fail percentages per rule):
-
-  ```bash
-  npm run test:rules -- --coverage
+  npm run test
   ```
 
 - For documentation, serve the site locally (see [Viewing the Guidelines Locally](#viewing-the-guidelines-locally))
